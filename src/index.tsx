@@ -124,12 +124,14 @@ const Index = forwardRef(
     };
 
     const snapTo = (index: number) => {
-      if (snapPoints.findIndex((x) => x === 0 || x === '0%') !== -1) {
+      const value = snapPoints[index];
+      if (value === 0 || value === '0%') {
         Keyboard.dismiss();
       }
-      bottomPanel.current.snapTo({ index });
-      const value = snapPoints[index];
-      onChangeSnap && onChangeSnap({ index, value });
+      if (!keyboardHeight) {
+        bottomPanel.current.snapTo({ index });
+        onChangeSnap && onChangeSnap({ index, value });
+      }
     };
 
     useImperativeHandle(ref, () => ({
